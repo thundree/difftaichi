@@ -1,6 +1,4 @@
 import sys
-
-import sys
 import taichi as ti
 import math
 import numpy as np
@@ -11,7 +9,7 @@ from matplotlib.pyplot import cm
 import taichi as tc
 
 real = ti.f32
-ti.set_default_fp(real)
+ti.init(default_fp=real)
 
 max_steps = 4096
 vis_interval = 4

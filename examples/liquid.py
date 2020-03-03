@@ -10,7 +10,7 @@ import time
 import taichi as tc
 
 real = ti.f32
-ti.set_default_fp(real)
+ti.init(default_fp=real, arch=ti.cuda)
 
 dim = 3
 # this will be overwritten
@@ -36,8 +36,8 @@ scalar = lambda: ti.var(dt=real)
 vec = lambda: ti.Vector(dim, dt=real)
 mat = lambda: ti.Matrix(dim, dim, dt=real)
 
-actuator_id = ti.global_var(ti.i32)
-particle_type = ti.global_var(ti.i32)
+actuator_id = ti.var(ti.i32)
+particle_type = ti.var(ti.i32)
 x, v = vec(), vec()
 grid_v_in, grid_m_in = vec(), scalar()
 grid_v_out = vec()
@@ -55,12 +55,6 @@ x_avg = vec()
 actuation = scalar()
 actuation_omega = 40
 act_strength = 5
-
-# ti.cfg.arch = ti.x86_64
-# ti.cfg.use_llvm = True
-ti.cfg.arch = ti.cuda
-
-# ti.cfg.print_ir = True
 
 visualize_resolution = 256
 
@@ -468,7 +462,7 @@ def main():
         weights[i, j] -= learning_rate * weights.grad[i, j]
       bias[i] -= learning_rate * bias.grad[i]
 
-    if iter % 50 == 0:
+    if iter % 50 == -1:
       # visualize
       print("Dumping particles...")
       for s in range(7, steps, 2):

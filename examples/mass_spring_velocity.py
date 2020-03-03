@@ -8,12 +8,10 @@ import matplotlib.pyplot as plt
 import taichi as ti
 import math
 import numpy as np
-import cv2
 import os
 
 real = ti.f32
-ti.set_default_fp(real)
-# ti.cfg.print_ir = True
+ti.init(default_fp=real)
 
 max_steps = 4096
 vis_interval = 256
@@ -47,8 +45,8 @@ spring_omega = 10
 damping = 15
 
 n_springs = 0
-spring_anchor_a = ti.global_var(ti.i32)
-spring_anchor_b = ti.global_var(ti.i32)
+spring_anchor_a = ti.var(ti.i32)
+spring_anchor_b = ti.var(ti.i32)
 spring_length = scalar()
 spring_stiffness = scalar()
 spring_actuation = scalar()
